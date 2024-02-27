@@ -1,10 +1,10 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
+const { sendWelcomeEmail } = require("../utils/sendMail");
 
 const SignUp = async (req, res) => {
   const errors = validationResult(req);
-  console.log(errors.array());
   if (!errors.isEmpty())
     return res.status(400).json({ message: errors.array() });
 
@@ -26,6 +26,8 @@ const SignUp = async (req, res) => {
 
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
+
+    await sendWelcomeEmail(email, username);
 
     res.status(201).send({ message: "User created successful" });
   } catch (error) {
