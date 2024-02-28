@@ -9,8 +9,13 @@ import {
   DialogTrigger,
 } from "../components/ui/dialog.jsx";
 import { Button } from "./ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
+
+import { UseAppContext } from "../context/AppContext.jsx";
 
 const Header = () => {
+  const { currentUser, isLoggedIn } = UseAppContext();
+
   return (
     <header className="bg-slate-200 shadow-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between p-5">
@@ -56,7 +61,7 @@ const Header = () => {
           <div className="block lg:hidden">
             <MobileMenu />
           </div>
-          <ul className="hidden gap-4 lg:flex ">
+          <ul className="hidden items-center gap-4 lg:flex">
             <Link to="/">
               <li className="hidden text-slate-700 hover:underline sm:inline">
                 Home
@@ -67,7 +72,17 @@ const Header = () => {
                 About
               </li>
             </Link>
-            <Link to="/profile">
+            <Link to="/profile" className={isLoggedIn ? "block" : "hidden"}>
+              <li className="flex items-center gap-2">
+                <Avatar>
+                  <AvatarImage src={currentUser?.avatar} />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <span>{currentUser?.username}</span>
+              </li>
+            </Link>
+
+            <Link to="/profile" className={isLoggedIn ? "hidden" : "block"}>
               <li className=" text-slate-700 hover:underline"> Sign in</li>
             </Link>
           </ul>
