@@ -1,6 +1,8 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
+
 const { sendWelcomeEmail } = require("../utils/sendMail");
 
 const SignUp = async (req, res) => {
@@ -36,4 +38,28 @@ const SignUp = async (req, res) => {
   }
 };
 
-module.exports = { SignUp };
+const SignIn = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const existingUser = await User.findOne({ email: email });
+    if (!existingUser)
+      return res.status(404).send({ message: "Cannot find user" });
+
+    const validPassword = bcrypt.compareSync(password, existingUser.password);
+    if (!validPassword)
+      return res.status(401).send({ message: "Wrong credentials" });
+
+    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET);
+    const { password: pass, ...others } = existingUser._doc;
+
+    res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(200)
+      .json(others);
+  } catch (error) {
+    console.log("[Error while logging in]", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+module.exports = { SignUp, SignIn };
