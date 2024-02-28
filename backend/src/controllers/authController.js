@@ -29,6 +29,16 @@ const SignUp = async (req, res) => {
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
 
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 86400000,
+    });
+
     await sendWelcomeEmail(email, username);
 
     res.status(201).send({ message: "User created successful" });
@@ -49,12 +59,15 @@ const SignIn = async (req, res) => {
     if (!validPassword)
       return res.status(401).send({ message: "Wrong credentials" });
 
-    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
     const { password: pass, ...others } = existingUser._doc;
 
-    res.cookie("access_token", token, {
+    res.cookie("auth_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      maxAge: 86400000,
     });
 
     res.status(200).json(others);
@@ -64,4 +77,8 @@ const SignIn = async (req, res) => {
   }
 };
 
-module.exports = { SignUp, SignIn };
+const ValidateToken = async (req, res) => {
+  res.status(200).send({ id: req.id });
+};
+
+module.exports = { SignUp, SignIn, ValidateToken };

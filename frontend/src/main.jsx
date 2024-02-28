@@ -7,16 +7,25 @@ import { Toaster } from "./components/ui/toaster";
 
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { AppContextProvider } from "./context/AppContext.jsx";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <App />
-        <Toaster />
-      </BrowserRouter>
+      <AppContextProvider>
+        <BrowserRouter>
+          <App />
+          <Toaster />
+        </BrowserRouter>
+      </AppContextProvider>
     </QueryClientProvider>
   </React.StrictMode>,
 );

@@ -3,6 +3,7 @@ const API_URL = "http://localhost:5100";
 export const UseSignUp = async (formData) => {
   const response = await fetch(`${API_URL}/api/auth/signup`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -18,6 +19,7 @@ export const UseSignUp = async (formData) => {
 export const UseSignIn = async (formData) => {
   const response = await fetch(`${API_URL}/api/auth/signin`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -28,4 +30,13 @@ export const UseSignIn = async (formData) => {
   if (!response.ok) throw new Error(responseBody.message);
 
   return responseBody;
+};
+
+export const ValidateToken = async () => {
+  const response = await fetch(`${API_URL}/api/auth/validate-token`, {
+    credentials: "include",
+  });
+  if (!response.ok) throw new Error("Invalid token");
+
+  return await response.json();
 };

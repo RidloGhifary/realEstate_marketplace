@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const authController = require("../controllers/authController");
 const { check } = require("express-validator");
+const { verifyToken } = require("../middleware/auth");
 
 router.post(
   "/signup",
@@ -24,5 +25,7 @@ router.post(
   ],
   authController.SignIn
 );
+
+router.get("/validate-token", verifyToken, authController.ValidateToken);
 
 module.exports = router;
