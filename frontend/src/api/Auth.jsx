@@ -40,3 +40,19 @@ export const ValidateToken = async () => {
 
   return await response.json();
 };
+
+export const UseGoogle = async (formData) => {
+  const response = await fetch(`${API_URL}/api/auth/google`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+
+  const responseBody = await response.json();
+  if (!response.ok) throw new Error(responseBody.message);
+
+  return responseBody;
+};

@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useState } from "react";
 import { useToast } from "../components/ui/use-toast";
+import OAuth from "../components/OAuth";
 
 import { useNavigate } from "react-router-dom";
 
@@ -167,6 +168,7 @@ const SignUp = () => {
         >
           {isLoading ? "Loading..." : "Sign up"}
         </Button>
+        <OAuth isLoading={isLoading} />
       </form>
       <div className="mt-5 flex gap-2">
         <p>Have an account?</p>

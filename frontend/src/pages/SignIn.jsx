@@ -1,17 +1,16 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { useForm } from "react-hook-form";
 
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useState } from "react";
 import { useToast } from "../components/ui/use-toast";
-
-import { useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 import { UseSignIn } from "../api/Auth";
-
-import { useMutation } from "react-query";
-import { useForm } from "react-hook-form";
 
 const SignIn = () => {
   const [seePassword, setSeePassword] = useState(false);
@@ -112,6 +111,7 @@ const SignIn = () => {
         >
           {isLoading ? "Loading..." : "Sign in"}
         </Button>
+        <OAuth isLoading={isLoading} />
       </form>
       <div className="mt-5 flex gap-2">
         <p>Haven`t an account?</p>
