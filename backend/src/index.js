@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 require("dotenv/config");
 
 const authRouter = require("./routes/authRouter");
+const userRouter = require("./routes/userRouter");
 
 const PORT = process.env.PORT;
 const app = express();
@@ -26,5 +27,6 @@ app.use(
 );
 
 app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
 
 app.listen(PORT, () => console.log("Connected on port:", PORT));
