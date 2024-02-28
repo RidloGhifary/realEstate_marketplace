@@ -52,10 +52,12 @@ const SignIn = async (req, res) => {
     const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET);
     const { password: pass, ...others } = existingUser._doc;
 
-    res
-      .cookie("access_token", token, { httpOnly: true })
-      .status(200)
-      .json(others);
+    res.cookie("access_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    res.status(200).json(others);
   } catch (error) {
     console.log("[Error while logging in]", error);
     res.status(500).json({ message: "Internal server error" });

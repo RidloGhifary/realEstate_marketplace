@@ -32,7 +32,7 @@ const SignUp = () => {
         variant: "success",
         description: "Sign up successful",
       });
-      navigate("/");
+      navigate("/sign-in");
     },
     onError: () => {
       toast({
@@ -165,7 +165,7 @@ const SignUp = () => {
           type="submit"
           className="rounded-lg bg-slate-700 p-3 uppercase text-white hover:opacity-95 disabled:opacity-80"
         >
-          {isLoading ? "Loading.." : "Sign up"}
+          {isLoading ? "Loading..." : "Sign up"}
         </Button>
       </form>
       <div className="mt-5 flex gap-2">
