@@ -126,8 +126,18 @@ const WithGoogle = async (req, res) => {
   }
 };
 
+const SignOut = async (req, res) => {
+  try {
+    res.clearCookie("auth_token");
+    res.status(200).json({ message: "Logged out" });
+  } catch (error) {
+    console.log("[Error while logging out with google]", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 const ValidateToken = async (req, res) => {
   res.status(200).send({ id: req.id });
 };
 
-module.exports = { SignUp, SignIn, WithGoogle, ValidateToken };
+module.exports = { SignUp, SignIn, WithGoogle, SignOut, ValidateToken };

@@ -56,3 +56,14 @@ export const UseGoogle = async (formData) => {
 
   return responseBody;
 };
+
+export const UseSignOut = async () => {
+  const response = await fetch(`${API_URL}/api/auth/signout`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) throw new Error("Invalid token");
+
+  return await response.json();
+};

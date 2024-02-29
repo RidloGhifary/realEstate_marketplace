@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import MobileMenu from "./MobileMenu";
-
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
-
 import { UseAppContext } from "../context/AppContext.jsx";
 import { Input } from "./ui/input";
+import { IoReload } from "react-icons/io5";
 
 const Header = () => {
-  const { currentUser, isLoggedIn } = UseAppContext();
+  const { currentUser, isLoggedIn, fetchUserLoading } = UseAppContext();
 
   return (
     <header className="bg-slate-200 shadow-md">
@@ -50,6 +49,9 @@ const Header = () => {
             </Link>
             <Link to="/profile" className={isLoggedIn ? "block" : "hidden"}>
               <li className="flex items-center gap-2">
+                {fetchUserLoading && (
+                  <IoReload size={30} className="animate-spin" />
+                )}
                 <Avatar>
                   <AvatarImage src={currentUser?.avatar} />
                   <AvatarFallback>CN</AvatarFallback>

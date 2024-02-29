@@ -28,6 +28,8 @@ router.post(
 
 router.post("/google", authController.WithGoogle);
 
+router.get("/signout", verifyToken, authController.SignOut);
+
 router.get("/validate-token", verifyToken, authController.ValidateToken);
 
 module.exports = router;

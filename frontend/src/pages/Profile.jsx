@@ -1,7 +1,6 @@
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
-import { Separator } from "../components/ui/separator";
 import { useEffect, useRef, useState } from "react";
 import { UseAppContext } from "../context/AppContext";
 import { IoIosCamera } from "react-icons/io";
@@ -15,6 +14,7 @@ import { app } from "../firebase";
 import { useMutation } from "react-query";
 import { UseUpdateUser } from "../api/Users";
 import { toast } from "../components/ui/use-toast";
+import ProfileRightSide from "../components/ProfileRightSide";
 
 const Profile = () => {
   const { currentUser } = UseAppContext();
@@ -167,15 +167,6 @@ const Profile = () => {
                 disabled
               />
             </div>
-            {/* <div>
-              <Input
-                type="password"
-                placeholder="password"
-                className="rounded-lg border p-3"
-                id="password"
-                name="password"
-              />
-            </div> */}
 
             <Button
               type="submit"
@@ -186,30 +177,7 @@ const Profile = () => {
             </Button>
           </form>
         </div>
-        <Separator orientation="vertical" className="bg-slate-600" />
-        <div className="sticky w-full basis-[40%]">
-          <div className="mb-20 space-y-3">
-            <Avatar className="h-24 w-24">
-              <AvatarImage src={currentUser?.avatar} />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <div>
-              <h1 className="text-lg font-bold">{currentUser?.username}</h1>
-              <p className="text-sm text-slate-700">
-                Member since{" "}
-                <span className="font-semibold">
-                  {new Date(currentUser?.createdAt).getDate()}-
-                  {new Date(currentUser?.createdAt).getFullYear()}
-                </span>
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-[-3px]">
-            <button>Sign out</button>
-            <p className="text-sm text-slate-700">{currentUser?.email}</p>
-          </div>
-        </div>
+        <ProfileRightSide currentUser={currentUser} />
       </div>
     </div>
   );
