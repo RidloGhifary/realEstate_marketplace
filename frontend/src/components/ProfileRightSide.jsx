@@ -3,7 +3,7 @@ import { UseSignOut } from "../api/Auth";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { useMutation } from "react-query";
 import { toast } from "./ui/use-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ProfileRightSide = ({ currentUser }) => {
   const navigate = useNavigate();
@@ -40,6 +40,9 @@ const ProfileRightSide = ({ currentUser }) => {
               {new Date(currentUser?.createdAt).getFullYear()}
             </span>
           </p>
+          <Link to="/upload" className="mt-3 text-sm hover:underline">
+            Create marketplace
+          </Link>
         </div>
       </div>
 
