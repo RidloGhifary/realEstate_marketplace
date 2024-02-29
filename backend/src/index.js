@@ -7,6 +7,7 @@ require("dotenv/config");
 
 const authRouter = require("./routes/authRouter");
 const userRouter = require("./routes/userRouter");
+const estateRouter = require("./routes/listEstateRoute");
 
 const PORT = process.env.PORT;
 const app = express();
@@ -28,5 +29,6 @@ app.use(
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/estate", estateRouter);
 
 app.listen(PORT, () => console.log("Connected on port:", PORT));
