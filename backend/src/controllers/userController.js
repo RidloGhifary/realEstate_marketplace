@@ -28,7 +28,7 @@ const UpdateUser = async (req, res) => {
       { new: true }
     );
 
-    const { password, ...others } = updateUser._id;
+    const { password, ...others } = updateUser._doc;
     res.status(200).json(others);
   } catch (error) {
     console.log("[Error while updating user]", error);
