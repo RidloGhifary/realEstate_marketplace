@@ -11,4 +11,29 @@ const GetCurrentUser = async (req, res) => {
   }
 };
 
-module.exports = { GetCurrentUser };
+const UpdateUser = async (req, res) => {
+  if (req.id !== req.params.id) {
+    return res.status(401).send({ message: "Unauthorized" });
+  }
+  try {
+    const updateUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          username: req.body.username,
+          email: req.body.email,
+          avatar: req.body.avatar,
+        },
+      },
+      { new: true }
+    );
+
+    const { password, ...others } = updateUser._id;
+    res.status(200).json(others);
+  } catch (error) {
+    console.log("[Error while updating user]", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+module.exports = { GetCurrentUser, UpdateUser };
