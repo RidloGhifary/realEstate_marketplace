@@ -2,16 +2,10 @@ import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import MobileMenu from "./MobileMenu";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-} from "../components/ui/dialog.jsx";
-import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 
 import { UseAppContext } from "../context/AppContext.jsx";
+import { Input } from "./ui/input";
 
 const Header = () => {
   const { currentUser, isLoggedIn } = UseAppContext();
@@ -37,25 +31,7 @@ const Header = () => {
             </button>
           </form>
           <div className="block md:hidden">
-            <Dialog>
-              <DialogTrigger>
-                <Button className="bg-slate-700">Search</Button>
-              </DialogTrigger>
-              <DialogContent className="bg-slate-300 sm:max-w-md">
-                <DialogHeader>
-                  <form className="flex items-center justify-between rounded-lg bg-white p-2 md:p-3">
-                    <input
-                      type="text"
-                      placeholder="Search..."
-                      className="w-40 bg-transparent focus:outline-none sm:w-64"
-                    />
-                    <button>
-                      <FaSearch className="text-slate-600" />
-                    </button>
-                  </form>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
+            <Input type="text" placeholder="Search" />
           </div>
 
           <div className="block lg:hidden">
@@ -82,7 +58,7 @@ const Header = () => {
               </li>
             </Link>
 
-            <Link to="/profile" className={isLoggedIn ? "hidden" : "block"}>
+            <Link to="/sign-in" className={isLoggedIn ? "hidden" : "block"}>
               <li className=" text-slate-700 hover:underline"> Sign in</li>
             </Link>
           </ul>

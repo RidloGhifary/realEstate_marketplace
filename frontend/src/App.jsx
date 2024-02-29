@@ -29,7 +29,10 @@ function App() {
         />
 
         <Route element={<PrivateRoute />}>
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/profile"
+            element={isLoggedIn ? <Navigate to="/" /> : <Profile />}
+          />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

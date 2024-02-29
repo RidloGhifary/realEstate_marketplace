@@ -7,8 +7,11 @@ import {
   SheetTrigger,
 } from "../components/ui/sheet.jsx";
 import { FiMenu } from "react-icons/fi";
+import { UseAppContext } from "../context/AppContext.jsx";
 
 const MobileMenu = () => {
+  const { isLoggedIn } = UseAppContext();
+
   return (
     <Sheet>
       <SheetTrigger>
@@ -29,12 +32,21 @@ const MobileMenu = () => {
             >
               About
             </Link>
-            <Link
-              to="/profile"
-              className="rounded-md p-4 text-lg transition hover:bg-slate-100"
-            >
-              Sign in
-            </Link>
+            {isLoggedIn ? (
+              <Link
+                to="/profile"
+                className="rounded-md p-4 text-lg transition hover:bg-slate-100"
+              >
+                Profile
+              </Link>
+            ) : (
+              <Link
+                to="/sign-in"
+                className="rounded-md p-4 text-lg transition hover:bg-slate-100"
+              >
+                Sign in
+              </Link>
+            )}
           </SheetDescription>
         </SheetHeader>
       </SheetContent>
