@@ -31,7 +31,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route
             path="/profile"
-            element={isLoggedIn ? <Navigate to="/" /> : <Profile />}
+            element={isLoggedIn ? <Profile /> : <Navigate to="/" />}
           />
         </Route>
 

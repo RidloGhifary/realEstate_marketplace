@@ -12,7 +12,7 @@ import { AppContextProvider } from "./context/AppContext.jsx";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: 0,
+      retry: 2,
     },
   },
 });

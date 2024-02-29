@@ -16,9 +16,6 @@ const UpdateUser = async (req, res) => {
     return res.status(401).send({ message: "Unauthorized" });
   }
 
-  if (!req.body.username || !req.body.avatar) {
-    return res.status(400).send({ message: "Something required is missing" });
-  }
   try {
     const updateUser = await User.findByIdAndUpdate(
       req.params.id,

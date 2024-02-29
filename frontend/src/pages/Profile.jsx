@@ -94,6 +94,8 @@ const Profile = () => {
     }
   };
 
+  const { isLoading } = mutation;
+
   return (
     <div className="mx-auto w-full p-3">
       <h1 className="my-4 text-center text-3xl font-semibold">Profile</h1>
@@ -110,6 +112,7 @@ const Profile = () => {
                 ref={fileRef}
                 hidden
                 accept="image/*"
+                disabled={isLoading}
               />
               <div className="relative cursor-pointer">
                 <Avatar
@@ -148,6 +151,7 @@ const Profile = () => {
                 className="rounded-lg border p-3"
                 id="username"
                 name="username"
+                disabled={isLoading}
                 defaultValue={currentUser.username}
                 onChange={handleFormChange}
               />
@@ -175,6 +179,7 @@ const Profile = () => {
 
             <Button
               type="submit"
+              disabled={isLoading}
               className="rounded-lg bg-slate-700 p-3 uppercase text-white hover:opacity-95 disabled:opacity-80"
             >
               Update
