@@ -28,4 +28,20 @@ const GetListingByUserId = async (req, res) => {
   }
 };
 
-module.exports = { CreateList, GetListingByUserId };
+const DeleteList = async (req, res) => {
+  try {
+    const estate = await EstateList.findByIdAndDelete(req.params.id);
+
+    if (!estate)
+      return res
+        .status(404)
+        .send({ message: `Cannot find listEstate with id : ${req.params.id}` });
+
+    res.status(200).json({ message: "Deleted Successful" });
+  } catch (error) {
+    console.log("[Error while deleting listEstate]", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+module.exports = { CreateList, GetListingByUserId, DeleteList };

@@ -1,12 +1,30 @@
 /* eslint-disable react/prop-types */
-import { UseGetMarketplaceByUserId } from "../../api/Marketplace";
-import { useQuery } from "react-query";
+import {
+  UseDeleteMarketplace,
+  UseGetMarketplaceByUserId,
+} from "../../api/Marketplace";
+import { useQuery, useMutation } from "react-query";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../../components/ui/alert-dialog";
+import { useToast } from "../ui/use-toast";
+
 const Listings = ({ userId }) => {
+  const { toast } = useToast();
+
   const {
     data: dataListings,
     isLoading,
@@ -16,6 +34,30 @@ const Listings = ({ userId }) => {
     UseGetMarketplaceByUserId(userId),
   );
 
+  const {
+    mutateAsync,
+    isLoading: deleteListLoading,
+    error: deleteListError,
+  } = useMutation(UseDeleteMarketplace, {
+    onSuccess: () => {
+      toast({
+        variant: "success",
+        description: "Delete list successful",
+      });
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        description: "Delete list failed",
+      });
+    },
+  });
+
+  const handleDeleteList = async (listId) => {
+    await mutateAsync(listId);
+    console.log(deleteListError);
+  };
+
   return (
     <div className="mx-auto w-[80%] space-y-10">
       {isError && (
@@ -23,11 +65,12 @@ const Listings = ({ userId }) => {
           {error}
         </p>
       )}
-      {isLoading && (
-        <p className="w-full rounded-md bg-slate-200 p-10 text-center">
-          Loading...
-        </p>
-      )}
+      {isLoading ||
+        (deleteListLoading && (
+          <p className="w-full rounded-md bg-slate-200 p-10 text-center">
+            Loading...
+          </p>
+        ))}
       {dataListings?.map((data, index) => (
         <>
           <div key={index} className="flex items-center justify-between gap-3">
@@ -45,7 +88,28 @@ const Listings = ({ userId }) => {
                   {data.type}
                 </p>
                 <div>
-                  <Button variant="link">Delete</Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="link">Delete</Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Want to delete?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you sure you want to delete? you will not be able
+                          to undo this changes
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => handleDeleteList(data._id)}
+                        >
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                   <Link to={`/update-listing/${data._id}`}>
                     <Button variant="link">Update</Button>
                   </Link>

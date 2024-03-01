@@ -43,5 +43,6 @@ router.post(
 );
 
 router.get("/listing/:id", verifyToken, listControllers.GetListingByUserId);
+router.delete("/listing/:id", verifyToken, listControllers.DeleteList);
 
 module.exports = router;

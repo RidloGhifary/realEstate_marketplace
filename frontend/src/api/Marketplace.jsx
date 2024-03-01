@@ -31,3 +31,14 @@ export const UseGetMarketplaceByUserId = async (id) => {
 
   return await response.json();
 };
+
+export const UseDeleteMarketplace = async (listId) => {
+  const response = await fetch(`${API_URL}/api/estate/listing/${listId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+
+  if (!response.ok) throw new Error("Something error while fetching");
+
+  return await response.json();
+};
