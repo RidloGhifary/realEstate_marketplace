@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
-const Rooms = () => {
+const Rooms = ({ formData, handleChange }) => {
   return (
     <>
       <div className="space-y-1">
@@ -9,10 +10,9 @@ const Rooms = () => {
         <Input
           type="number"
           id="bedrooms"
-          min="1"
-          max="10"
-          required
           className="rounded-lg border border-gray-300 p-3"
+          value={formData.bedrooms}
+          onChange={handleChange}
         />
       </div>
       <div className="space-y-1">
@@ -20,10 +20,9 @@ const Rooms = () => {
         <Input
           type="number"
           id="bathrooms"
-          min="1"
-          max="10"
-          required
           className="rounded-lg border border-gray-300 p-3"
+          value={formData.bathrooms}
+          onChange={handleChange}
         />
       </div>
     </>

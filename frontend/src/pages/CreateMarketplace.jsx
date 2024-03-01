@@ -1,5 +1,3 @@
-import { Input } from "../components/ui/input";
-import { Textarea } from "../components/ui/textarea";
 import Checkboxes from "../components/create-marketplace/Checkboxes";
 import Rooms from "../components/create-marketplace/Rooms";
 import Prices from "../components/create-marketplace/Prices";
@@ -13,8 +11,18 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
+import MainInput from "../components/create-marketplace/MainInput";
+import { useMutation } from "react-query";
+import { UseCreateMarketplace } from "../api/Marketplace";
+import { UseAppContext } from "../context/AppContext";
+import { useToast } from "../components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const CreateMarketplace = () => {
+  const { currentUser } = UseAppContext();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
@@ -27,7 +35,7 @@ const CreateMarketplace = () => {
     bedrooms: 1,
     bathrooms: 1,
     regularPrice: 50,
-    discountPrice: 0,
+    discountPrice: 50,
     offer: false,
     parking: false,
     furnished: false,
@@ -99,43 +107,79 @@ const CreateMarketplace = () => {
     });
   };
 
+  const handleChange = (e) => {
+    e.preventDefault();
+    if (e.target.id === "rent" || e.target.id === "sale") {
+      setFormData({ ...formData, type: e.target.id });
+    }
+
+    if (
+      e.target.id === "parking" ||
+      e.target.id === "offer" ||
+      e.target.id === "furnished"
+    ) {
+      setFormData({ ...formData, [e.target.id]: e.target.checked });
+    }
+
+    if (
+      e.target.type === "text" ||
+      e.target.type === "number" ||
+      e.target.type === "textarea"
+    ) {
+      setFormData({ ...formData, [e.target.id]: e.target.value });
+    }
+  };
+
+  const {
+    mutate,
+    isLoading,
+    isError,
+    data: createMarketplaceData,
+  } = useMutation(UseCreateMarketplace, {
+    // eslint-disable-next-line no-unused-vars
+    onSuccess: (data) => {
+      toast({
+        variant: "success",
+        description: "Successfully uploaded",
+      });
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        description: "Failed to upload",
+      });
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutate({ ...formData, userRef: currentUser._id });
+    navigate(createMarketplaceData._id);
+  };
+
   return (
     <main className="mx-auto mb-20 max-w-4xl p-3">
       <h1 className="my-7 text-center text-3xl font-semibold">
         Create a Listing
       </h1>
-      <form className="grid gap-3 md:grid-cols-2">
+      {isError && (
+        <p className="text-center text-rose-500">something went wrong</p>
+      )}
+      <form
+        onSubmit={handleSubmit}
+        className="grid gap-3 md:grid-cols-2"
+        disabled={isLoading}
+      >
         <div className="flex flex-1 flex-col gap-4">
-          <Input
-            type="text"
-            placeholder="Name"
-            className="rounded-lg border p-3"
-            id="name"
-            maxLength="62"
-            minLength="10"
-            required
-          />
-          <Textarea
-            type="text"
-            placeholder="Description"
-            className="rounded-lg border p-3"
-            id="description"
-            required
-          />
-          <Textarea
-            type="text"
-            placeholder="Address"
-            className="rounded-lg border p-3"
-            id="address"
-            required
-          />
+          {/* NAME, DESCRIPTION AND ADDRESS INPUTS HERE */}
+          <MainInput formData={formData} handleChange={handleChange} />
           {/* CHECKBOXES HERE */}
-          <Checkboxes />
+          <Checkboxes formData={formData} handleChange={handleChange} />
           <div className="grid grid-cols-2 gap-3">
             {/* ROOMS INPUT HERE */}
-            <Rooms />
+            <Rooms formData={formData} handleChange={handleChange} />
             {/* PRICES INPUT HERE */}
-            <Prices />
+            <Prices formData={formData} handleChange={handleChange} />
           </div>
         </div>
         {/* UPLOAD IMAGES INPUT HERE */}
@@ -147,7 +191,9 @@ const CreateMarketplace = () => {
           handleRemoveImage={handleRemoveImage}
           formData={formData}
         />
-        <Button disabled={uploading}>Create listing</Button>
+        <Button disabled={isLoading || uploading}>
+          {isLoading ? "Loading..." : "Create listing"}
+        </Button>
       </form>
     </main>
   );

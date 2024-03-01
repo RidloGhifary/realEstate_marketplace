@@ -1,27 +1,61 @@
-import { Checkbox } from "../ui/checkbox";
+/* eslint-disable react/prop-types */
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
-const Checkboxes = () => {
+const Checkboxes = ({ formData, handleChange }) => {
   return (
     <div className="grid grid-cols-3 gap-2">
       <div className="flex items-center gap-2">
-        <Checkbox type="checkbox" id="sale" className="w-4" />
-        <label htmlFor="sale">Sell</label>
+        <Input
+          type="checkbox"
+          id="parking"
+          className="w-4"
+          onChange={handleChange}
+          checked={formData.parking}
+        />
+        <Label htmlFor="parking">Parking spot</Label>
       </div>
       <div className="flex items-center gap-2">
-        <Checkbox type="checkbox" id="rent" className="w-4" />
-        <label htmlFor="rent">Rent</label>
+        <Input
+          type="checkbox"
+          id="furnished"
+          className="w-4"
+          onChange={handleChange}
+          checked={formData.furnished}
+        />
+        <Label htmlFor="furnished">Furnished</Label>
       </div>
       <div className="flex items-center gap-2">
-        <Checkbox type="checkbox" id="parking" className="w-4" />
-        <label htmlFor="parking">Parking spot</label>
+        <Input
+          type="checkbox"
+          id="offer"
+          className="w-4"
+          onChange={handleChange}
+          checked={formData.offer}
+        />
+        <Label htmlFor="offer">Offer</Label>
       </div>
       <div className="flex items-center gap-2">
-        <Checkbox type="checkbox" id="furnished" className="w-4" />
-        <label htmlFor="furnished">Furnished</label>
+        <Input
+          type="radio"
+          name="type"
+          id="sale"
+          className="w-4"
+          onChange={handleChange}
+          checked={formData?.type === "sale"}
+        />
+        <Label htmlFor="sale">Sell</Label>
       </div>
       <div className="flex items-center gap-2">
-        <Checkbox type="checkbox" id="offer" className="w-4" />
-        <label htmlFor="offer">Offer</label>
+        <Input
+          type="radio"
+          name="type"
+          id="rent"
+          className="w-4"
+          onChange={handleChange}
+          checked={formData?.type === "rent"}
+        />
+        <Label htmlFor="rent">Rent</Label>
       </div>
     </div>
   );
