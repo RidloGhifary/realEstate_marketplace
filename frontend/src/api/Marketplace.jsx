@@ -20,3 +20,14 @@ export const UseCreateMarketplace = async (formData) => {
   if (!response.ok) throw new Error(responseBody.message);
   return responseBody;
 };
+
+export const UseGetMarketplaceByUserId = async (id) => {
+  const response = await fetch(`${API_URL}/api/estate/listing/${id}`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) throw new Error("Something error while fetching");
+
+  return await response.json();
+};

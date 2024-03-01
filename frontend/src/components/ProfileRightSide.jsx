@@ -25,7 +25,7 @@ const ProfileRightSide = ({ currentUser }) => {
   });
 
   return (
-    <div className="sticky w-full basis-[40%]">
+    <div className="w-full basis-[40%]">
       <div className="mb-20 space-y-3">
         <Avatar className="h-24 w-24">
           <AvatarImage src={currentUser?.avatar} />

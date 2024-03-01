@@ -1,9 +1,5 @@
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { useEffect, useRef, useState } from "react";
 import { UseAppContext } from "../context/AppContext";
-import { IoIosCamera } from "react-icons/io";
 import {
   getDownloadURL,
   getStorage,
@@ -15,10 +11,15 @@ import { useMutation } from "react-query";
 import { UseUpdateUser } from "../api/Users";
 import { toast } from "../components/ui/use-toast";
 import ProfileRightSide from "../components/ProfileRightSide";
+import { Separator } from "../components/ui/separator";
+import Listings from "../components/profile/Listings";
+import UpdateProfile from "../components/profile/UpdateProfile";
 
 const Profile = () => {
   const { currentUser } = UseAppContext();
   const fileRef = useRef(null);
+
+  const [changeLeftSide, setChangeLeftSide] = useState("profile");
 
   const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
@@ -97,87 +98,49 @@ const Profile = () => {
   const { isLoading } = mutation;
 
   return (
-    <div className="mx-auto w-full p-3">
-      <h1 className="my-4 text-center text-3xl font-semibold">Profile</h1>
-      <div className="w-full items-center justify-between gap-5 md:flex">
-        <div className="basis-[60%]">
-          <form
-            onSubmit={handleSubmit}
-            className="mx-auto flex w-[80%] flex-col gap-4"
-          >
-            <div className="mx-auto">
-              <input
-                onChange={(e) => setFile(e.target.files[0])}
-                type="file"
-                ref={fileRef}
-                hidden
-                accept="image/*"
-                disabled={isLoading}
-              />
-              <div className="relative cursor-pointer">
-                <Avatar
-                  className="h-40 w-40"
-                  onClick={() => fileRef.current.click()}
-                >
-                  <AvatarImage src={formData.avatar || currentUser?.avatar} />
-                  <AvatarFallback>CN</AvatarFallback>
-                  <div className="absolute inset-0 z-10 flex items-center justify-center bg-slate-300/10 transition hover:bg-slate-300/50">
-                    <IoIosCamera size={50} className="text-slate-400" />
-                  </div>
-                </Avatar>
-              </div>
+    <div className="container mx-auto mb-20 p-3">
+      <h1 className="container my-16 w-[94%] text-4xl font-semibold">
+        {currentUser.username}
+      </h1>
+      <div className="w-full items-start justify-start gap-5 md:flex">
+        <div className="basis-[60%] ">
+          <div className="mx-auto w-[80%]">
+            <div className="flex items-center gap-10">
+              <p
+                className="cursor-pointer hover:underline"
+                onClick={() => setChangeLeftSide("profile")}
+              >
+                Profile
+              </p>
+              <p
+                className="cursor-pointer hover:underline"
+                onClick={() => setChangeLeftSide("list")}
+              >
+                My List
+              </p>
             </div>
-            <p className="self-center text-sm">
-              {filePerc > 0 && filePerc < 100 && (
-                <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
-              )}
+            <Separator className="my-3 mb-10" />
+          </div>
+          {changeLeftSide === "profile" && (
+            <UpdateProfile
+              handleSubmit={handleSubmit}
+              setFile={setFile}
+              fileRef={fileRef}
+              isLoading={isLoading}
+              currentUser={currentUser}
+              formData={formData}
+              filePerc={filePerc}
+              fileUploadError={fileUploadError}
+              handleFormChange={handleFormChange}
+            />
+          )}
 
-              {fileUploadError ? (
-                <span className="text-red-700">
-                  Error Image upload (image must be less than 3 mb)
-                </span>
-              ) : fileUploadError !== true && filePerc === 100 ? (
-                <span className="text-green-700">
-                  Image successfully uploaded!
-                </span>
-              ) : (
-                ""
-              )}
-            </p>
-            <div>
-              <Input
-                type="text"
-                placeholder="username"
-                className="rounded-lg border p-3"
-                id="username"
-                name="username"
-                disabled={isLoading}
-                defaultValue={currentUser.username}
-                onChange={handleFormChange}
-              />
-            </div>
-            <div>
-              <Input
-                type="email"
-                placeholder="email"
-                className="rounded-lg border p-3"
-                id="email"
-                name="email"
-                defaultValue={currentUser.email}
-                disabled
-              />
-            </div>
-
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="rounded-lg bg-slate-700 p-3 uppercase text-white hover:opacity-95 disabled:opacity-80"
-            >
-              Update
-            </Button>
-          </form>
+          {changeLeftSide === "list" && <Listings userId={currentUser._id} />}
         </div>
-        <ProfileRightSide currentUser={currentUser} />
+        <Separator orientation="vertical" className="h-full w-3" />
+        <div className="sticky top-5 mt-7">
+          <ProfileRightSide currentUser={currentUser} />
+        </div>
       </div>
     </div>
   );
