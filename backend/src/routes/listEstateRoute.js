@@ -18,7 +18,7 @@ router.post(
     check("discountPrice", "Discount price is required")
       .optional()
       .isNumeric()
-      .isFloat({ min: 1 }),
+      .isFloat({ min: 0 }),
     check("bathrooms", "Bathrooms price is required").isNumeric(),
     check("bedrooms", "Bedrooms price is required").isNumeric(),
     check("furnished", "Furnished must be true or false")
@@ -41,5 +41,7 @@ router.post(
   ],
   listControllers.CreateList
 );
+
+router.get("/listing/:id", verifyToken, listControllers.GetListingByUserId);
 
 module.exports = router;
