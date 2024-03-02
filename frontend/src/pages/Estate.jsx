@@ -146,16 +146,14 @@ const Estate = () => {
                 {estateDatas.furnished ? "Furnished" : "Unfurnished"}
               </li>
             </ul>
-            {currentUser &&
-              estateDatas.userRef !== currentUser._id &&
-              !contact && (
-                <Button
-                  onClick={() => setContact(true)}
-                  className="w-fit bg-slate-700  hover:opacity-95"
-                >
-                  Contact landlord
-                </Button>
-              )}
+            {currentUser && estateDatas.userRef !== currentUser._id && (
+              <Button
+                onClick={() => setContact(!contact)}
+                className="w-fit bg-slate-700  hover:opacity-95"
+              >
+                {contact ? "Close Contact" : "Contact landlord"}
+              </Button>
+            )}
             {contact && <Contact estateDatas={estateDatas} />}
           </div>
         </div>

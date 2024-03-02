@@ -18,9 +18,6 @@ const GetListingByUserId = async (req, res) => {
   try {
     const listings = await EstateList.find({ userRef: req.params.id });
 
-    if (listings.length < 1)
-      res.status(204).send({ message: "Resources is empty" });
-
     res.status(200).json(listings);
   } catch (error) {
     console.log("[Error while fetching listEstate]", error);

@@ -15,6 +15,7 @@ const ProfileRightSide = ({ currentUser }) => {
         description: "Logout successful",
       });
       navigate("/");
+      window.location.reload();
     },
     onError: () => {
       toast({
