@@ -17,6 +17,7 @@ import { useState } from "react";
 import { UseAppContext } from "../context/AppContext";
 import { Button } from "../components/ui/button";
 import Contact from "../components/Contact";
+import { Skeleton } from "../components/ui/skeleton";
 
 const Estate = () => {
   const location = useLocation();
@@ -37,9 +38,20 @@ const Estate = () => {
 
   return (
     <main>
-      {isLoading && <p className="my-7 text-center text-2xl">Loading...</p>}
+      {isLoading && (
+        <div className="flex flex-col space-y-3 p-8">
+          <Skeleton className="h-[225px] w-full rounded-xl" />
+          <div className="space-y-2">
+            <Skeleton className="h-10 w-1/2" />
+            <Skeleton className="h-10 w-1/3" />
+            <Skeleton className="h-10 w-1/3" />
+          </div>
+        </div>
+      )}
       {error && (
-        <p className="my-7 text-center text-2xl">Something went wrong!</p>
+        <p className="mx-auto mt-8 w-1/2 rounded-md bg-rose-500 p-6 text-white">
+          Something wrong try again later.
+        </p>
       )}
       {estateDatas && !isLoading && !error && (
         <div>
