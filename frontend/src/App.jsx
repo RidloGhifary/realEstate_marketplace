@@ -10,7 +10,7 @@ import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
 import { UseAppContext } from "./context/AppContext";
 import CreateMarketplace from "./pages/CreateMarketplace";
-import UpdateMarketplace from "./pages/UpdateMarketplace";
+import Estate from "./pages/Estate";
 
 function App() {
   const { isLoggedIn } = UseAppContext();
@@ -21,6 +21,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/estate/:id" element={<Estate />} />
+
         <Route
           path="/sign-in"
           element={isLoggedIn ? <Navigate to="/" /> : <SignIn />}
@@ -38,10 +40,6 @@ function App() {
           <Route
             path="/upload"
             element={isLoggedIn ? <CreateMarketplace /> : <Navigate to="/" />}
-          />
-          <Route
-            path="/update-listing/:id"
-            element={isLoggedIn ? <UpdateMarketplace /> : <Navigate to="/" />}
           />
         </Route>
 

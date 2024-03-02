@@ -191,11 +191,13 @@ const CreateMarketplace = () => {
     if (search) {
       updateListEstate({ ...formData, estateId });
       navigate(`/profile`);
-      navigate(`/estate/${estateId}`);
+      navigate(`/estate/${estateId}?name=${updateListEstateData.name}`);
     } else {
       mutate({ ...formData, userRef: currentUser._id });
       navigate("/profile");
-      // navigate(`/estate/${createMarketplaceData._id}`);
+      navigate(
+        `/estate/${createMarketplaceData._id}?name=${createMarketplaceData.name}`,
+      );
     }
   };
 

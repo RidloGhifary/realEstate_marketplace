@@ -76,7 +76,11 @@ const Listings = ({ userId }) => {
               <span className="text-sm text-slate-700">
                 Created - {moment(data.createdAt).format("MMMM Do YYYY")}
               </span>
-              <h1 className="line-clamp-1 text-3xl font-bold">{data.name}</h1>
+              <h1 className="line-clamp-1 text-3xl font-bold hover:underline">
+                <Link to={`/estate/${data._id}?name=${data.name}`}>
+                  {data.name}
+                </Link>
+              </h1>
               <p className="line-clamp-2">{data.description}</p>
               <span className="line-clamp-1 text-sm text-slate-700">
                 {data.address}

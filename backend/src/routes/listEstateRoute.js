@@ -24,6 +24,6 @@ router.post(
   validate,
   listControllers.UpdateList
 );
-router.get("/listing/:id", verifyToken, listControllers.GetEstateById);
+router.get("/listing/:id", listControllers.GetEstateById);
 
 module.exports = router;
