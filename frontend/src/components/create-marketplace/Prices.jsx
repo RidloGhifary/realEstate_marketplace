@@ -22,7 +22,7 @@ const Prices = ({ formData, handleChange }) => {
         <Input
           type="number"
           id="discountPrice"
-          min={50}
+          min={0}
           max={100000}
           className="rounded-lg border border-gray-300 p-3"
           value={formData.discountPrice}

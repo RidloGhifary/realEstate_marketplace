@@ -34,28 +34,26 @@ const Listings = ({ userId }) => {
     UseGetMarketplaceByUserId(userId),
   );
 
-  const {
-    mutateAsync,
-    isLoading: deleteListLoading,
-    error: deleteListError,
-  } = useMutation(UseDeleteMarketplace, {
-    onSuccess: () => {
-      toast({
-        variant: "success",
-        description: "Delete list successful",
-      });
+  const { mutateAsync, isLoading: deleteListLoading } = useMutation(
+    UseDeleteMarketplace,
+    {
+      onSuccess: () => {
+        toast({
+          variant: "success",
+          description: "Delete list successful",
+        });
+      },
+      onError: () => {
+        toast({
+          variant: "destructive",
+          description: "Delete list failed",
+        });
+      },
     },
-    onError: () => {
-      toast({
-        variant: "destructive",
-        description: "Delete list failed",
-      });
-    },
-  });
+  );
 
   const handleDeleteList = async (listId) => {
     await mutateAsync(listId);
-    console.log(deleteListError);
   };
 
   return (
@@ -110,7 +108,7 @@ const Listings = ({ userId }) => {
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
-                  <Link to={`/update-listing/${data._id}`}>
+                  <Link to={`/upload?edit=true/${data._id}`}>
                     <Button variant="link">Update</Button>
                   </Link>
                 </div>

@@ -11,7 +11,11 @@ router.post(
   validate,
   listControllers.CreateList
 );
-router.get("/listing/:id", verifyToken, listControllers.GetListingByUserId);
+router.get(
+  "/user-listing/:id",
+  verifyToken,
+  listControllers.GetListingByUserId
+);
 router.delete("/listing/:id", verifyToken, listControllers.DeleteList);
 router.post(
   "/listing/:id",
@@ -20,5 +24,6 @@ router.post(
   validate,
   listControllers.UpdateList
 );
+router.get("/listing/:id", verifyToken, listControllers.GetEstateById);
 
 module.exports = router;

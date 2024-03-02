@@ -12,33 +12,45 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import MainInput from "../components/create-marketplace/MainInput";
-import { useMutation } from "react-query";
-import { UseCreateMarketplace } from "../api/Marketplace";
+import { useMutation, useQuery } from "react-query";
+import {
+  UseCreateMarketplace,
+  UseGetMarketplaceById,
+  UseUpdateMarketplace,
+} from "../api/Marketplace";
 import { UseAppContext } from "../context/AppContext";
 import { useToast } from "../components/ui/use-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const CreateMarketplace = () => {
   const { currentUser } = UseAppContext();
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  const { search } = useLocation();
+  const estateId = search.split("/")[1];
+
+  const { data: estateDatas } = useQuery(
+    ["UseGetMarketplaceById", estateId],
+    () => UseGetMarketplaceById(estateId),
+  );
+
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
-    imageUrls: [],
-    name: "",
-    description: "",
-    address: "",
-    type: "rent",
-    bedrooms: 1,
-    bathrooms: 1,
-    regularPrice: 50,
-    discountPrice: 50,
-    offer: false,
-    parking: false,
-    furnished: false,
+    imageUrls: estateDatas?.imageUrls || [],
+    name: estateDatas?.name || "",
+    description: estateDatas?.description || "",
+    address: estateDatas?.address || "",
+    type: estateDatas?.type || "rent",
+    bedrooms: estateDatas?.bedrooms || 1,
+    bathrooms: estateDatas?.bathrooms || 1,
+    regularPrice: estateDatas?.regularPrice || 50,
+    discountPrice: estateDatas?.discountPrice || 0,
+    offer: estateDatas?.offer || false,
+    parking: estateDatas?.parking || false,
+    furnished: estateDatas?.furnished || false,
   });
 
   const handleUploadImages = (e) => {
@@ -130,6 +142,7 @@ const CreateMarketplace = () => {
     }
   };
 
+  // TODO - CREATE LIST ESTATE
   const {
     mutate,
     isLoading,
@@ -151,20 +164,50 @@ const CreateMarketplace = () => {
     },
   });
 
+  // TODO - UPDATE LIST ESTATE
+  const {
+    mutate: updateListEstate,
+    isLoading: updateListLoading,
+    isError: updateListIsError,
+    data: updateListEstateData,
+  } = useMutation(UseUpdateMarketplace, {
+    // eslint-disable-next-line no-unused-vars
+    onSuccess: (data) => {
+      toast({
+        variant: "success",
+        description: "Successfully updated",
+      });
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        description: "Failed to update",
+      });
+    },
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutate({ ...formData, userRef: currentUser._id });
-    navigate(createMarketplaceData._id);
+    if (search) {
+      updateListEstate({ ...formData, estateId });
+      navigate(`/profile`);
+      navigate(`/estate/${estateId}`);
+    } else {
+      mutate({ ...formData, userRef: currentUser._id });
+      navigate("/profile");
+      // navigate(`/estate/${createMarketplaceData._id}`);
+    }
   };
 
   return (
     <main className="mx-auto mb-20 max-w-4xl p-3">
       <h1 className="my-7 text-center text-3xl font-semibold">
-        Create a Listing
+        {`${search ? "Update" : "Create"} a Listing`}
       </h1>
-      {isError && (
-        <p className="text-center text-rose-500">something went wrong</p>
-      )}
+      {isError ||
+        (updateListIsError && (
+          <p className="text-center text-rose-500">something went wrong</p>
+        ))}
       <form
         onSubmit={handleSubmit}
         className="grid gap-3 md:grid-cols-2"
@@ -191,8 +234,12 @@ const CreateMarketplace = () => {
           handleRemoveImage={handleRemoveImage}
           formData={formData}
         />
-        <Button disabled={isLoading || uploading}>
-          {isLoading ? "Loading..." : "Create listing"}
+        <Button disabled={isLoading || updateListLoading || uploading}>
+          {isLoading
+            ? "Loading..."
+            : search
+              ? "Update listing"
+              : "Create listing"}
         </Button>
       </form>
     </main>

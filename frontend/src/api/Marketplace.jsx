@@ -22,7 +22,7 @@ export const UseCreateMarketplace = async (formData) => {
 };
 
 export const UseGetMarketplaceByUserId = async (id) => {
-  const response = await fetch(`${API_URL}/api/estate/listing/${id}`, {
+  const response = await fetch(`${API_URL}/api/estate/user-listing/${id}`, {
     method: "GET",
     credentials: "include",
   });
@@ -41,4 +41,31 @@ export const UseDeleteMarketplace = async (listId) => {
   if (!response.ok) throw new Error("Something error while fetching");
 
   return await response.json();
+};
+
+export const UseGetMarketplaceById = async (estateId) => {
+  const response = await fetch(`${API_URL}/api/estate/listing/${estateId}`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) throw new Error("Something error while fetching");
+
+  return await response.json();
+};
+
+export const UseUpdateMarketplace = async (formData) => {
+  const { estateId, ...data } = formData;
+  const response = await fetch(`${API_URL}/api/estate/listing/${estateId}`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  const responseBody = await response.json();
+  if (!response.ok) throw new Error(responseBody.message);
+  return responseBody;
 };
