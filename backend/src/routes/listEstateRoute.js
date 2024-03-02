@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const listControllers = require("../controllers/listEstateController");
 const { verifyToken } = require("../middleware/auth");
-const { check } = require("express-validator");
 const { validateListing, validate } = require("../middleware/estate");
 
 router.post(
@@ -25,5 +24,6 @@ router.post(
   listControllers.UpdateList
 );
 router.get("/listing/:id", listControllers.GetEstateById);
+router.get("/allListings", listControllers.GetAll);
 
 module.exports = router;
