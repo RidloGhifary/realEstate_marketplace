@@ -1,27 +1,76 @@
-import { Label } from "../../components/ui/label";
 import { Checkbox } from "../../components/ui/checkbox";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "../../components/ui/form";
 
-const Type = () => {
+const Type = (form) => {
   return (
     <div className="flex items-start justify-start gap-3">
       <span className="basis-2/6 font-semibold">Type:</span>
       <div className="mt-1 space-y-3">
-        <div className="flex items-center gap-2">
-          <Checkbox type="checkbox" id="all" />
-          <Label>Rent & Sale</Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <Checkbox type="checkbox" id="rent" />
-          <Label>Rent</Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <Checkbox type="checkbox" id="sale" />
-          <Label>Sale</Label>
-        </div>
-        <div className="flex items-center gap-2">
-          <Checkbox type="checkbox" id="offer" />
-          <Label>Offer</Label>
-        </div>
+        <FormField
+          control={form.control}
+          name="all"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center gap-2 space-y-0">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormLabel>Rent & Sale</FormLabel>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="rent"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center gap-2 space-y-0">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormLabel>Rent</FormLabel>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="sale"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center gap-2 space-y-0">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormLabel>Sale</FormLabel>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="offer"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center gap-2 space-y-0">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormLabel>Offer</FormLabel>
+            </FormItem>
+          )}
+        />
       </div>
     </div>
   );

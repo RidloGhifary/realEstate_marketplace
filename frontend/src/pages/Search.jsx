@@ -1,28 +1,50 @@
 import { Input } from "../components/ui/input";
-
 import { Button } from "../components/ui/button";
 import Type from "../components/search-form/Type";
 import Facility from "../components/search-form/Facility";
 import Options from "../components/search-form/Options";
+import { useForm } from "react-hook-form";
+import { Form, FormControl, FormField, FormItem } from "../components/ui/form";
 
 const Search = () => {
+  const form = useForm();
+
+  const handleSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <div className="flex flex-col md:flex-row">
       <div className="border-b-2 p-7 md:min-h-screen md:border-r-2">
-        <form className="flex flex-col gap-8">
-          <div className="flex items-center gap-2">
-            <Input
-              type="text"
-              id="searchTerm"
-              placeholder="Search..."
-              className="w-full rounded-lg border p-3"
-            />
-          </div>
-          <Type />
-          <Facility />
-          <Options />
-          <Button>Search</Button>
-        </form>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="flex flex-col gap-8"
+          >
+            <div className="flex items-center gap-2">
+              <FormField
+                control={form.control}
+                name="searchTerm"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="text"
+                        placeholder="Search..."
+                        className="w-full rounded-lg border p-3"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+            <Type form={form} />
+            <Facility form={form} />
+            <Options form={form} />
+            <Button type="submit">Search</Button>
+          </form>
+        </Form>
       </div>
 
       {/* <div className="flex-1">
