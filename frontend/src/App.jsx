@@ -11,6 +11,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import { UseAppContext } from "./context/AppContext";
 import CreateMarketplace from "./pages/CreateMarketplace";
 import Estate from "./pages/Estate";
+import Search from "./pages/Search";
 
 function App() {
   const { isLoggedIn } = UseAppContext();
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/estate/:id" element={<Estate />} />
+        <Route path="/search" element={<Search />} />
 
         <Route
           path="/sign-in"

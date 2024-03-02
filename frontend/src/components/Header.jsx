@@ -5,9 +5,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { UseAppContext } from "../context/AppContext.jsx";
 import { Input } from "./ui/input";
 import { IoReload } from "react-icons/io5";
+import { useForm } from "react-hook-form";
+import { Form, FormControl, FormField, FormItem } from "../components/ui/form";
+import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { currentUser, isLoggedIn, fetchUserLoading } = UseAppContext();
+
+  const navigate = useNavigate();
+  const form = useForm();
+
+  const onSubmit = (data) => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    urlSearchParams.set("searchTerm", data.search);
+    const searchQuery = urlSearchParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
 
   return (
     <header className="bg-slate-200 shadow-md">
@@ -19,16 +33,32 @@ const Header = () => {
           </h1>
         </Link>
         <div className="flex items-center gap-3">
-          <form className="hidden items-center rounded-lg bg-slate-100 p-2 md:flex md:p-3">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-40 bg-transparent focus:outline-none sm:w-64"
-            />
-            <button>
-              <FaSearch className="text-slate-600" />
-            </button>
-          </form>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="hidden items-center rounded-lg bg-slate-100 p-1 md:flex md:p-2 md:px-3"
+            >
+              <FormField
+                control={form.control}
+                name="search"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <input
+                        {...field}
+                        type="text"
+                        placeholder="Search..."
+                        className="w-40 bg-transparent focus:outline-none sm:w-64"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" variant="ghost" className="p-0">
+                <FaSearch className="text-slate-600" />
+              </Button>
+            </form>
+          </Form>
           <div className="block md:hidden">
             <Input type="text" placeholder="Search" />
           </div>

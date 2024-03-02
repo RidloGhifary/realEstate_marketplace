@@ -117,7 +117,10 @@ const GetAll = async (req, res) => {
     const startIndex = parseInt(req.query.startIndex) || 0;
 
     const searchEstate = await EstateList.find({
-      name: { $regex: searchTerm, $options: "i" },
+      $or: [
+        { name: { $regex: searchTerm, $options: "i" } },
+        { description: { $regex: searchTerm, $options: "i" } },
+      ],
       offer,
       furnished,
       parking,
