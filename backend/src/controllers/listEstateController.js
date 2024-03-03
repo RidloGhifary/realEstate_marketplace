@@ -5,7 +5,7 @@ const CreateList = async (req, res) => {
     const estate = await EstateList.create(req.body);
     return res.status(201).json(estate);
   } catch (error) {
-    console.log("[Error while creating listEstate]", error);
+    // console.log("[Error while creating listEstate]", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -20,7 +20,7 @@ const GetListingByUserId = async (req, res) => {
 
     res.status(200).json(listings);
   } catch (error) {
-    console.log("[Error while fetching listEstate]", error);
+    // console.log("[Error while fetching listEstate]", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -40,7 +40,7 @@ const DeleteList = async (req, res) => {
 
     res.status(200).json({ message: "Deleted Successful" });
   } catch (error) {
-    console.log("[Error while deleting listEstate]", error);
+    // console.log("[Error while deleting listEstate]", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -67,7 +67,7 @@ const UpdateList = async (req, res) => {
 
     res.status(200).json(updateEstate);
   } catch (error) {
-    console.log("[Error while deleting listEstate]", error);
+    // console.log("[Error while deleting listEstate]", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -83,7 +83,7 @@ const GetEstateById = async (req, res) => {
 
     res.status(200).json(estate);
   } catch (error) {
-    console.log("[Error while fetching listEstate]", error);
+    // console.log("[Error while fetching listEstate]", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -132,7 +132,7 @@ const GetAll = async (req, res) => {
 
     return res.status(200).json(searchEstate);
   } catch (error) {
-    console.log("[Error while fetching all listEstate]", error);
+    // console.log("[Error while fetching all listEstate]", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

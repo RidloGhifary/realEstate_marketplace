@@ -6,7 +6,7 @@ const GetCurrentUser = async (req, res) => {
     if (!user) return res.status(400).json({ message: "User not found" });
     res.send(user);
   } catch (error) {
-    console.log("[Error while fetching user]", error);
+    // console.log("[Error while fetching user]", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -32,7 +32,7 @@ const UpdateUser = async (req, res) => {
     const { password, ...others } = updateUser._doc;
     res.status(200).json(others);
   } catch (error) {
-    console.log("[Error while updating user]", error);
+    // console.log("[Error while updating user]", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

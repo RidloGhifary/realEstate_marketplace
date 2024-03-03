@@ -43,7 +43,7 @@ const SignUp = async (req, res) => {
 
     res.status(201).send({ message: "User created successful" });
   } catch (error) {
-    console.log("[Error while creating user]", error);
+    // console.log("[Error while creating user]", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -72,7 +72,7 @@ const SignIn = async (req, res) => {
 
     res.status(200).json(others);
   } catch (error) {
-    console.log("[Error while logging in]", error);
+    // console.log("[Error while logging in]", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -121,7 +121,7 @@ const WithGoogle = async (req, res) => {
       res.status(200).json(others);
     }
   } catch (error) {
-    console.log("[Error while logging in with google]", error);
+    // console.log("[Error while logging in with google]", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -131,7 +131,7 @@ const SignOut = async (req, res) => {
     res.clearCookie("auth_token");
     res.status(200).json({ message: "Logged out" });
   } catch (error) {
-    console.log("[Error while logging out with google]", error);
+    // console.log("[Error while logging out with google]", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
