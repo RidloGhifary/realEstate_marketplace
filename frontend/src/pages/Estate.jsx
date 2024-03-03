@@ -55,32 +55,38 @@ const Estate = () => {
       )}
       {estateDatas && !isLoading && !error && (
         <div>
-          <Swiper
-            slidesPerView={1}
-            centeredSlides={true}
-            loop={true}
-            autoplay={{
-              delay: 2000,
-              disableOnInteraction: false,
-            }}
-            pagination={{
-              dynamicBullets: true,
-              clickable: true,
-            }}
-            modules={[Pagination]}
-          >
-            {estateDatas.imageUrls.map((url) => (
-              <SwiperSlide key={url}>
-                <div
-                  className="h-[550px]"
-                  style={{
-                    background: `url(${url}) center no-repeat`,
-                    backgroundSize: "cover",
-                  }}
-                ></div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          {estateDatas.imageUrls?.length > 1 && (
+            <Swiper
+              slidesPerView={1}
+              centeredSlides={true}
+              loop={true}
+              autoplay={{
+                delay: 2000,
+                disableOnInteraction: false,
+              }}
+              pagination={{
+                dynamicBullets: true,
+                clickable: true,
+              }}
+              modules={[Pagination]}
+            >
+              {estateDatas.imageUrls.map((url) => (
+                <SwiperSlide key={url}>
+                  <div
+                    className="h-[550px]"
+                    style={{
+                      background: `url(${url}) center no-repeat`,
+                      backgroundSize: "cover",
+                    }}
+                  ></div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
+          <img
+            src={estateDatas?.imageUrls[0]}
+            className="w-full object-cover object-center"
+          />
           <div className="fixed right-[3%] top-[13%] z-10 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border bg-slate-100">
             <FaShare
               className="text-slate-500"
