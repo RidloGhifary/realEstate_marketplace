@@ -83,3 +83,14 @@ export const UseSearchEstate = async (searchTerm) => {
 
   return await response.json();
 };
+
+export const UseGetDataForHomePage = async (query) => {
+  const response = await fetch(`${API_URL}/api/estate/allListings?${query}`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) throw new Error("Something went wrong");
+
+  return await response.json();
+};

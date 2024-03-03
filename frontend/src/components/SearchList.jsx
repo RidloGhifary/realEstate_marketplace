@@ -1,10 +1,14 @@
 /* eslint-disable react/prop-types */
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MdLocationOn } from "react-icons/md";
 
-const searchData = ({ searchData }) => {
+const SearchList = ({ searchData }) => {
+  const location = useLocation();
+
   return (
-    <div className="w-full overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg sm:w-[300px]">
+    <div
+      className={`w-full overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg ${location.search === "" ? "sm:w-[270px]" : "sm:w-[300px]"}`}
+    >
       <Link to={`/estate/${searchData?._id}`}>
         <img
           src={
@@ -52,4 +56,4 @@ const searchData = ({ searchData }) => {
   );
 };
 
-export default searchData;
+export default SearchList;

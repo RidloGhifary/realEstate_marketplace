@@ -9,7 +9,7 @@ import { UseSearchEstate } from "../api/Marketplace";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import SearchList from "../components/SearchList";
-import { Skeleton } from "../components/ui/skeleton";
+import CardSkeleton from "../components/CardSkeleton";
 
 const Search = () => {
   const form = useForm({
@@ -95,17 +95,7 @@ const Search = () => {
           {!isLoading && searchData?.length === 0 && (
             <p className="text-xl text-slate-700">No listing found!</p>
           )}
-          {isLoading && (
-            <div className="flex flex-col space-y-3">
-              <Skeleton className="h-[225px] w-[250px] rounded-xl" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-                <Skeleton className="h-4 w-[200px]" />
-                <Skeleton className="h-4 w-[100px]" />
-              </div>
-            </div>
-          )}
+          {isLoading && <CardSkeleton />}
 
           {!isLoading &&
             searchData &&
