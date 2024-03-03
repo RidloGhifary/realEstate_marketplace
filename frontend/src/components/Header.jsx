@@ -1,45 +1,39 @@
-import { Link, useNavigate } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import MobileMenu from "./MobileMenu";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { UseAppContext } from "../context/AppContext.jsx";
-import { Input } from "./ui/input";
 import { IoReload } from "react-icons/io5";
-import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem } from "../components/ui/form";
 import { Button } from "./ui/button";
+// import { FaSearch } from "react-icons/fa";
+// import { Input } from "./ui/input";
+// import { useForm } from "react-hook-form";
+// import { Form, FormControl, FormField, FormItem } from "../components/ui/form";
 // import { UseSearchEstate } from "../api/Marketplace";
 // import { useMutation } from "react-query";
 
 const Header = () => {
   const { currentUser, isLoggedIn, fetchUserLoading } = UseAppContext();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const form = useForm({
-    defaultValues: {
-      searchTerm: "",
-      type: "all",
-      parking: false,
-      furnished: false,
-      offer: false,
-      sort: "createdAt",
-      order: "desc",
-    },
-  });
-
-  // const { mutate, isLoading } = useMutation(UseSearchEstate, {
-  //   onSuccess: (data) => {
-  //     return data;
+  // const form = useForm({
+  //   defaultValues: {
+  //     searchTerm: "",
+  //     type: "all",
+  //     parking: false,
+  //     furnished: false,
+  //     offer: false,
+  //     sort: "createdAt",
+  //     order: "desc",
   //   },
   // });
 
-  const onSubmit = (data) => {
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    urlSearchParams.set("searchTerm", data.search);
-    const searchQuery = urlSearchParams.toString();
-    navigate(`/search?${searchQuery}`);
-    // mutate(searchQuery);
-  };
+  // const onSubmit = (data) => {
+  //   const urlSearchParams = new URLSearchParams(window.location.search);
+  //   urlSearchParams.set("searchTerm", data.search);
+  //   const searchQuery = urlSearchParams.toString();
+  //   navigate(`/search?${searchQuery}`);
+  //   // mutate(searchQuery);
+  // };
 
   return (
     <header className="bg-slate-200 shadow-md">
@@ -51,7 +45,7 @@ const Header = () => {
           </h1>
         </Link>
         <div className="flex items-center gap-3">
-          <Form {...form}>
+          {/* <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="hidden items-center rounded-lg bg-slate-100 p-1 md:flex md:p-2 md:px-3"
@@ -85,7 +79,10 @@ const Header = () => {
           </Form>
           <div className="block md:hidden">
             <Input type="text" placeholder="Search" />
-          </div>
+          </div> */}
+          <Button variant="link">
+            <Link to="/search">Search</Link>
+          </Button>
 
           <div className="block lg:hidden">
             <MobileMenu />
