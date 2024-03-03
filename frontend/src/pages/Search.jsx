@@ -5,12 +5,52 @@ import Facility from "../components/search-form/Facility";
 import Options from "../components/search-form/Options";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem } from "../components/ui/form";
+import { UseSearchEstate } from "../api/Marketplace";
+import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
+import SearchList from "../components/SearchList";
+import { Skeleton } from "../components/ui/skeleton";
 
 const Search = () => {
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      searchTerm: "",
+      type: "all",
+      parking: false,
+      furnished: false,
+      offer: false,
+      sort: "createdAt",
+      order: "desc",
+    },
+  });
+  const navigate = useNavigate();
+
+  const {
+    mutate,
+    data: searchData,
+    isLoading,
+  } = useMutation(UseSearchEstate, {
+    onSuccess: (data) => {
+      return data;
+    },
+  });
 
   const handleSubmit = (data) => {
-    console.log(data);
+    const urlParams = new URLSearchParams();
+    urlParams.set("searchTerm", data.searchTerm);
+    urlParams.set("type", data.type);
+    urlParams.set("parking", data.parking);
+    urlParams.set("furnished", data.furnished);
+    urlParams.set("offer", data.offer);
+
+    const sort = data.sort.split("_")[0] || "createdAt";
+    const order = data.sort.split("_")[1] || "desc";
+
+    urlParams.set("sort", sort);
+    urlParams.set("order", order);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+    mutate(searchQuery);
   };
 
   return (
@@ -47,33 +87,38 @@ const Search = () => {
         </Form>
       </div>
 
-      {/* <div className="flex-1">
+      <div className="flex-1">
         <h1 className="mt-5 border-b p-3 text-3xl font-semibold text-slate-700">
-          Listing results:
+          Listing results: {searchData?.length} found
         </h1>
-        <div className="flex flex-wrap gap-4 p-7">
-          {!loading && listings.length === 0 && (
+        <div className="grid grid-cols-3 gap-4 p-7">
+          {!isLoading && searchData?.length === 0 && (
             <p className="text-xl text-slate-700">No listing found!</p>
           )}
-          {loading && (
-            <p className="w-full text-center text-xl text-slate-700">
-              Loading...
-            </p>
+          {isLoading && (
+            <div className="flex flex-col space-y-3">
+              <Skeleton className="h-[225px] w-[250px] rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+                <Skeleton className="h-4 w-[200px]" />
+                <Skeleton className="h-4 w-[100px]" />
+              </div>
+            </div>
           )}
 
-          {!loading &&
-            listings &&
-            listings.map((listing) => (
-              <ListingItem key={listing._id} listing={listing} />
+          {!isLoading &&
+            searchData &&
+            searchData.map((listing) => (
+              <SearchList key={listing._id} searchData={listing} />
             ))}
-
-            <button
-              className="w-full p-7 text-center text-green-700 hover:underline"
-            >
-              Show more
-            </button>
         </div>
-      </div> */}
+        {searchData?.length > 1 && (
+          <Button variant="link" className="my-5 block w-full">
+            Show more
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

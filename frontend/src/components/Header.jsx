@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import MobileMenu from "./MobileMenu";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
@@ -8,19 +8,37 @@ import { IoReload } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem } from "../components/ui/form";
 import { Button } from "./ui/button";
-import { useNavigate } from "react-router-dom";
+// import { UseSearchEstate } from "../api/Marketplace";
+// import { useMutation } from "react-query";
 
 const Header = () => {
   const { currentUser, isLoggedIn, fetchUserLoading } = UseAppContext();
-
   const navigate = useNavigate();
-  const form = useForm();
+
+  const form = useForm({
+    defaultValues: {
+      searchTerm: "",
+      type: "all",
+      parking: false,
+      furnished: false,
+      offer: false,
+      sort: "createdAt",
+      order: "desc",
+    },
+  });
+
+  // const { mutate, isLoading } = useMutation(UseSearchEstate, {
+  //   onSuccess: (data) => {
+  //     return data;
+  //   },
+  // });
 
   const onSubmit = (data) => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     urlSearchParams.set("searchTerm", data.search);
     const searchQuery = urlSearchParams.toString();
     navigate(`/search?${searchQuery}`);
+    // mutate(searchQuery);
   };
 
   return (
@@ -45,6 +63,7 @@ const Header = () => {
                   <FormItem>
                     <FormControl>
                       <input
+                        // disabled={isLoading}
                         {...field}
                         type="text"
                         placeholder="Search..."
@@ -54,7 +73,12 @@ const Header = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" variant="ghost" className="p-0">
+              <Button
+                // disabled={isLoading}
+                type="submit"
+                variant="ghost"
+                className="p-0"
+              >
                 <FaSearch className="text-slate-600" />
               </Button>
             </form>

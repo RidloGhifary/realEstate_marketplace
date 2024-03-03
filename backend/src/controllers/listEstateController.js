@@ -91,7 +91,7 @@ const GetEstateById = async (req, res) => {
 const GetAll = async (req, res) => {
   try {
     let offer = req.query.offer;
-    if (offer === undefined || offer === false) {
+    if (offer === undefined || offer === "undefined" || offer === false) {
       offer = { $in: [false, true] };
     }
 

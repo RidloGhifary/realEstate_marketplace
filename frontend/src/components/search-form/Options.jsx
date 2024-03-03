@@ -11,13 +11,13 @@ const Options = (form) => {
   return (
     <FormField
       control={form.control}
-      name="parking"
+      name="sort"
       render={({ field }) => (
         <FormItem className="flex flex-row items-center gap-2 space-y-0">
           <Select
             id="sort_order"
             onValueChange={field.onChange}
-            defaultValue={field.value}
+            defaultValue={"createdAt_desc"}
           >
             <FormControl>
               <SelectTrigger className="w-[180px]">

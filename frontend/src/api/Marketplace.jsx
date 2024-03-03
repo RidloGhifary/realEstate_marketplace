@@ -69,3 +69,17 @@ export const UseUpdateMarketplace = async (formData) => {
   if (!response.ok) throw new Error(responseBody.message);
   return responseBody;
 };
+
+export const UseSearchEstate = async (searchTerm) => {
+  const response = await fetch(
+    `${API_URL}/api/estate/allListings?${searchTerm}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
+
+  if (!response.ok) throw new Error("Something went wrong");
+
+  return await response.json();
+};
