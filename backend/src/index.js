@@ -9,7 +9,7 @@ const authRouter = require("./routes/authRouter");
 const userRouter = require("./routes/userRouter");
 const estateRouter = require("./routes/listEstateRoute");
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5100;
 const app = express();
 
 mongoose
