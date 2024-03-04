@@ -1,4 +1,4 @@
-const API_URL = "https://realestatbackend.vercel.app";
+const API_URL = import.meta.env.API_URL;
 
 export const UseCreateMarketplace = async (formData) => {
   if (formData.imageUrls.length < 1)

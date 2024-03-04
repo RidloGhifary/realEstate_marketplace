@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5100";
+const API_URL = import.meta.env.API_URL;
 
 export const GetCurrentUser = async () => {
   const response = await fetch(`${API_URL}/api/user/me`, {

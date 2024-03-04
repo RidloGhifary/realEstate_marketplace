@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5100";
+const API_URL = import.meta.env.API_URL;
 
 export const UseSignUp = async (formData) => {
   const response = await fetch(`${API_URL}/api/auth/signup`, {
