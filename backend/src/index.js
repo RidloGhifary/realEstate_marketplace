@@ -31,4 +31,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/estate", estateRouter);
 
+app.get("/hello", (req, res) => {
+  res.send({ message: "hello world" });
+});
+
 app.listen(PORT, () => console.log("Connected on port:", PORT));
