@@ -1,4 +1,4 @@
-const API_URL = "https://real-estate-marketplace-server-tawny.vercel.app";
+const API_URL = "https://realestatbackend.vercel.app";
 
 export const UseCreateMarketplace = async (formData) => {
   if (formData.imageUrls.length < 1)
